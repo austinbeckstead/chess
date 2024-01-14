@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="chess">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/client/src/main/java" />
+      <root url="file://$PROJECT_DIR$/server/src/main/java" />
+      <root url="file://$PROJECT_DIR$/shared/src/main/java" />
+      <root url="file://$PROJECT_DIR$/shared/src/test/java" />
+      <root url="file://$PROJECT_DIR$" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$" recursive="false" type="SOURCES" />
+  </library>
+</component>
