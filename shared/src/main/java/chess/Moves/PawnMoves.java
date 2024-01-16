@@ -19,10 +19,10 @@ public class PawnMoves extends PieceMoves {
 
     public Collection<ChessMove> getMoves() {
         if (teamColor == ChessGame.TeamColor.WHITE) {
-            ChessPosition forward = new ChessPosition(myPosition.getColumn(), myPosition.getRow() + 1);
+            ChessPosition up = new ChessPosition(myPosition.getColumn(), myPosition.getRow() + 1);
             if(myPosition.getRow() < 7) {
-                if (board.getPiece(forward) == null) {
-                    moves.add(new ChessMove(myPosition, forward, null));
+                if (board.getPiece(up) == null) {
+                    moves.add(new ChessMove(myPosition, up, null));
                 }
 
                 if (myPosition.getColumn() > 0) {
@@ -41,10 +41,10 @@ public class PawnMoves extends PieceMoves {
 
         }
         else if (teamColor == ChessGame.TeamColor.BLACK) {
-            ChessPosition forward = new ChessPosition(myPosition.getColumn(), myPosition.getRow() - 1);
+            ChessPosition down = new ChessPosition(myPosition.getColumn(), myPosition.getRow() - 1);
             if(myPosition.getRow() > 0) {
-                if (board.getPiece(forward) == null) {
-                    moves.add(new ChessMove(myPosition, forward, null));
+                if (board.getPiece(down) == null) {
+                    moves.add(new ChessMove(myPosition, down, null));
                 }
 
                 if (myPosition.getColumn() > 0) {
