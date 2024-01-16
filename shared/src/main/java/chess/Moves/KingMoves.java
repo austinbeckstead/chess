@@ -18,14 +18,10 @@ public class KingMoves extends PieceMoves {
     }
 
     public Collection<ChessMove> getMoves() {
-        boolean u = false;
-        boolean d = false;
-        boolean l = false;
-        boolean r = false;
-        if (myPosition.getColumn() > 0) {l = true;}
-        if (myPosition.getColumn() < 7) {r = true;}
-        if (myPosition.getRow() < 7) {u = true;}
-        if (myPosition.getRow() > 0) {d = true;}
+        boolean u = (myPosition.getRow() < 7);
+        boolean d = (myPosition.getRow() > 0);
+        boolean l = (myPosition.getColumn() > 0);
+        boolean r = (myPosition.getColumn() < 7);
 
         if (u) {
             ChessPosition up = new ChessPosition(myPosition.getColumn(), myPosition.getRow() + 1);
