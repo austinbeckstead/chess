@@ -32,6 +32,8 @@ public class KnightMoves extends PieceMoves {
         boolean r = (myPosition.getColumn() < 8);
         boolean rr = (myPosition.getColumn() < 7);
 
+
+
         if (u && rr) {
             ChessPosition urr = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 2);
             chess.ChessPiece piece = board.getPiece(urr);
