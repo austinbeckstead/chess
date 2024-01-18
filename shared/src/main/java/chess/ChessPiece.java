@@ -4,6 +4,7 @@ import chess.Moves.KingMoves;
 
 import java.util.Iterator;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -14,6 +15,7 @@ import java.util.Collection;
 public class ChessPiece {
     private ChessGame.TeamColor pieceColor;
     private ChessPiece.PieceType type;
+    private ChessPosition myPosition;
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceColor = pieceColor;
         this.type = type;
@@ -46,6 +48,19 @@ public class ChessPiece {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessPiece that = (ChessPiece) o;
+        return pieceColor == that.pieceColor && type == that.type && Objects.equals(myPosition, that.myPosition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceColor, type, myPosition);
+    }
+
     /**
      * Calculates all the positions a chess piece can move to
      * Does not take into account moves that are illegal due to leaving the king in
@@ -55,7 +70,7 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moves = null;
-        Collection<ChessMove> moreMoves = null;
+        Collection<ChessMove> moreMoves;
 
         switch (type){
             case PieceType.KING:
@@ -64,10 +79,7 @@ public class ChessPiece {
             case PieceType.QUEEN:
                 moves = new chess.Moves.RookMoves(board, myPosition, pieceColor).getMoves();
                 moreMoves = new chess.Moves.BishopMoves(board, myPosition, pieceColor).getMoves();
-                Iterator<ChessMove> iterator = moreMoves.iterator();
-                while(iterator.hasNext()){
-                    moves.add(iterator.next());
-                }
+                moves.addAll(moreMoves);
 
                 break;
             case PieceType.BISHOP:

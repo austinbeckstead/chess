@@ -15,6 +15,9 @@ public class KnightMoves extends PieceMoves {
 
     public KnightMoves(ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor teamColor) {
         super(board, myPosition, teamColor);
+        this.myPosition = myPosition;
+        this.board = board;
+        this.teamColor = teamColor;
     }
 
     public Collection<ChessMove> getMoves() {
@@ -28,7 +31,7 @@ public class KnightMoves extends PieceMoves {
         boolean rr = (myPosition.getColumn() < 7);
 
         if (u && rr) {
-            ChessPosition urr = new ChessPosition(myPosition.getColumn() + 2, myPosition.getRow() + 1);
+            ChessPosition urr = new ChessPosition(myPosition.getRow() + 2, myPosition.getColumn() + 1);
             chess.ChessPiece piece = board.getPiece(urr);
             if (piece == null){
                 moves.add(new ChessMove(myPosition, urr, null));
@@ -38,7 +41,7 @@ public class KnightMoves extends PieceMoves {
             }
         }
         if (uu && r) {
-            ChessPosition uur = new ChessPosition(myPosition.getColumn() + 1, myPosition.getRow() + 2);
+            ChessPosition uur = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 2);
             chess.ChessPiece piece = board.getPiece(uur);
             if (piece == null){
                 moves.add(new ChessMove(myPosition, uur, null));
@@ -48,7 +51,7 @@ public class KnightMoves extends PieceMoves {
             }
         }
         if (uu && l) {
-            ChessPosition uul = new ChessPosition(myPosition.getColumn() - 1, myPosition.getRow() + 2);
+            ChessPosition uul = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() + 2);
             chess.ChessPiece piece = board.getPiece(uul);
             if (piece == null){
                 moves.add(new ChessMove(myPosition, uul, null));
@@ -58,7 +61,7 @@ public class KnightMoves extends PieceMoves {
             }
         }
         if (u && ll) {
-            ChessPosition ull = new ChessPosition(myPosition.getColumn() - 2, myPosition.getRow() + 1);
+            ChessPosition ull = new ChessPosition(myPosition.getRow() - 2, myPosition.getColumn() + 1);
             chess.ChessPiece piece = board.getPiece(ull);
             if (piece == null){
                 moves.add(new ChessMove(myPosition, ull, null));
@@ -68,7 +71,7 @@ public class KnightMoves extends PieceMoves {
             }
         }
         if (d && rr) {
-            ChessPosition drr = new ChessPosition(myPosition.getColumn() + 2, myPosition.getRow() - 1);
+            ChessPosition drr = new ChessPosition(myPosition.getRow() + 2, myPosition.getColumn() - 1);
             chess.ChessPiece piece = board.getPiece(drr);
             if (piece == null){
                 moves.add(new ChessMove(myPosition, drr, null));
@@ -78,7 +81,7 @@ public class KnightMoves extends PieceMoves {
             }
         }
         if (dd && r) {
-            ChessPosition ddr = new ChessPosition(myPosition.getColumn() + 1, myPosition.getRow()  - 2);
+            ChessPosition ddr = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn()  - 2);
             chess.ChessPiece piece = board.getPiece(ddr);
             if (piece == null){
                 moves.add(new ChessMove(myPosition, ddr, null));
@@ -88,7 +91,7 @@ public class KnightMoves extends PieceMoves {
             }
         }
         if (d && ll) {
-            ChessPosition dll = new ChessPosition(myPosition.getColumn() - 2, myPosition.getRow() - 1);
+            ChessPosition dll = new ChessPosition(myPosition.getRow() - 2, myPosition.getColumn() - 1);
             chess.ChessPiece piece = board.getPiece(dll);
             if (piece == null){
                 moves.add(new ChessMove(myPosition, dll, null));
@@ -98,7 +101,7 @@ public class KnightMoves extends PieceMoves {
             }
         }
         if (dd && l) {
-            ChessPosition ddl = new ChessPosition(myPosition.getColumn() - 1, myPosition.getRow() - 2);
+            ChessPosition ddl = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() - 2);
             chess.ChessPiece piece = board.getPiece(ddl);
             if (piece == null){
                 moves.add(new ChessMove(myPosition, ddl, null));

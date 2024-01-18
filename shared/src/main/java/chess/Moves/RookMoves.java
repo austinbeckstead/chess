@@ -15,11 +15,14 @@ public class RookMoves extends PieceMoves{
 
     public RookMoves(ChessBoard board, ChessPosition myPosition, ChessGame.TeamColor teamColor) {
         super(board, myPosition, teamColor);
+        this.myPosition = myPosition;
+        this.board = board;
+        this.teamColor = teamColor;
     }
 
     public Collection<ChessMove> getMoves() {
         for(int i = 1; i <= 8 - myPosition.getRow(); i++){
-            ChessPosition up = new ChessPosition(myPosition.getColumn(), myPosition.getRow() + i);
+            ChessPosition up = new ChessPosition(myPosition.getRow(), myPosition.getColumn() + i);
             chess.ChessPiece piece = board.getPiece(up);
             if (piece == null) {
                 moves.add(new ChessMove(myPosition, up, null));
@@ -33,7 +36,7 @@ public class RookMoves extends PieceMoves{
             }
         }
         for(int i = 1; i < myPosition.getRow(); i++){
-            ChessPosition down = new ChessPosition(myPosition.getColumn(), myPosition.getRow() - i);
+            ChessPosition down = new ChessPosition(myPosition.getRow(), myPosition.getColumn() - i);
             chess.ChessPiece piece = board.getPiece(down);
             if (piece == null) {
                 moves.add(new ChessMove(myPosition, down, null));
@@ -47,7 +50,7 @@ public class RookMoves extends PieceMoves{
             }
         }
         for(int i = 1; i <= 8 - myPosition.getColumn(); i++){
-            ChessPosition right = new ChessPosition(myPosition.getColumn() + i, myPosition.getRow());
+            ChessPosition right = new ChessPosition(myPosition.getRow() + i, myPosition.getColumn());
             chess.ChessPiece piece = board.getPiece(right);
             if (piece == null) {
                 moves.add(new ChessMove(myPosition, right, null));
@@ -61,7 +64,7 @@ public class RookMoves extends PieceMoves{
             }
         }
         for(int i = 1; i < myPosition.getColumn(); i++){
-            ChessPosition left = new ChessPosition(myPosition.getColumn() - i, myPosition.getRow());
+            ChessPosition left = new ChessPosition(myPosition.getRow() - i, myPosition.getColumn());
             chess.ChessPiece piece = board.getPiece(left);
             if (piece == null) {
                 moves.add(new ChessMove(myPosition, left, null));
