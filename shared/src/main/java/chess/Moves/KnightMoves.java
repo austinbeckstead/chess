@@ -3,7 +3,6 @@ import chess.ChessBoard;
 import chess.ChessGame;
 import chess.ChessMove;
 import chess.ChessPosition;
-import sun.lwawt.macosx.CSystemTray;
 
 import java.util.Collection;
 
