@@ -1,5 +1,8 @@
 package chess;
 
+import chess.Moves.KingMoves;
+
+import java.util.Iterator;
 import java.util.Collection;
 
 /**
@@ -50,6 +53,36 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> moves = null;
+        Collection<ChessMove> moreMoves = null;
+
+        switch (type){
+            case PieceType.KING:
+                moves = new chess.Moves.KingMoves(board, myPosition, pieceColor).getMoves();
+                break;
+            case PieceType.QUEEN:
+                moves = new chess.Moves.RookMoves(board, myPosition, pieceColor).getMoves();
+                moreMoves = new chess.Moves.BishopMoves(board, myPosition, pieceColor).getMoves();
+                Iterator<ChessMove> iterator = moreMoves.iterator();
+                while(iterator.hasNext()){
+                    moves.add(iterator.next());
+                }
+
+                break;
+            case PieceType.BISHOP:
+                moves = new chess.Moves.BishopMoves(board, myPosition, pieceColor).getMoves();
+                break;
+            case PieceType.KNIGHT:
+                moves = new chess.Moves.KnightMoves(board, myPosition, pieceColor).getMoves();
+                break;
+            case PieceType.ROOK:
+                moves = new chess.Moves.RookMoves(board, myPosition, pieceColor).getMoves();
+                break;
+            case PieceType.PAWN:
+                moves = new chess.Moves.PawnMoves(board, myPosition, pieceColor).getMoves();
+                break;
+        }
+        return moves;
+
     }
 }
