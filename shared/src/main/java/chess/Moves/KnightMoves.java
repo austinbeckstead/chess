@@ -19,14 +19,14 @@ public class KnightMoves extends PieceMoves {
     }
 
     public Collection<ChessMove> getMoves() {
-        boolean u = myPosition.getRow() < 7;
-        boolean uu = (myPosition.getRow() < 6);
-        boolean d = (myPosition.getRow() > 0);
-        boolean dd = (myPosition.getRow() > 1);
-        boolean l = (myPosition.getColumn() > 0);
-        boolean ll = (myPosition.getColumn() > 1);
-        boolean r = (myPosition.getColumn() < 7);
-        boolean rr = (myPosition.getColumn() < 6);
+        boolean u = myPosition.getRow() < 8;
+        boolean uu = (myPosition.getRow() < 7);
+        boolean d = (myPosition.getRow() > 1);
+        boolean dd = (myPosition.getRow() > 2);
+        boolean l = (myPosition.getColumn() > 1);
+        boolean ll = (myPosition.getColumn() > 2);
+        boolean r = (myPosition.getColumn() < 8);
+        boolean rr = (myPosition.getColumn() < 7);
 
         if (u && rr) {
             ChessPosition urr = new ChessPosition(myPosition.getColumn() + 2, myPosition.getRow() + 1);

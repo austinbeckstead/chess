@@ -20,12 +20,12 @@ public class PawnMoves extends PieceMoves {
     public Collection<ChessMove> getMoves() {
         if (teamColor == ChessGame.TeamColor.WHITE) {
             ChessPosition up = new ChessPosition(myPosition.getColumn(), myPosition.getRow() + 1);
-            if(myPosition.getRow() < 7) {
+            if(myPosition.getRow() < 8) {
                 if (board.getPiece(up) == null) {
                     moves.add(new ChessMove(myPosition, up, null));
                 }
 
-                if (myPosition.getColumn() > 0) {
+                if (myPosition.getColumn() > 1) {
                     ChessPosition diag_left = new ChessPosition(myPosition.getColumn() - 1, myPosition.getRow() + 1);
                     if (board.getPiece(diag_left) != null) {
                         if (board.getPiece(diag_left).getTeamColor() == ChessGame.TeamColor.BLACK) {
@@ -33,7 +33,7 @@ public class PawnMoves extends PieceMoves {
                         }
                     }
                 }
-                if (myPosition.getColumn() < 7) {
+                if (myPosition.getColumn() < 8) {
                     ChessPosition diag_right = new ChessPosition(myPosition.getColumn() + 1, myPosition.getRow() + 1);
                     if (board.getPiece(diag_right) != null) {
                         if (board.getPiece(diag_right).getTeamColor() == ChessGame.TeamColor.BLACK) {
@@ -46,12 +46,12 @@ public class PawnMoves extends PieceMoves {
         }
         else if (teamColor == ChessGame.TeamColor.BLACK) {
             ChessPosition down = new ChessPosition(myPosition.getColumn(), myPosition.getRow() - 1);
-            if(myPosition.getRow() > 0) {
+            if(myPosition.getRow() > 1) {
                 if (board.getPiece(down) == null) {
                     moves.add(new ChessMove(myPosition, down, null));
                 }
 
-                if (myPosition.getColumn() > 0) {
+                if (myPosition.getColumn() > 1) {
                     ChessPosition diag_left = new ChessPosition(myPosition.getColumn() - 1, myPosition.getRow() - 1);
                     if (board.getPiece(diag_left) != null) {
                         if (board.getPiece(diag_left).getTeamColor() == ChessGame.TeamColor.WHITE) {
@@ -59,7 +59,7 @@ public class PawnMoves extends PieceMoves {
                         }
                     }
                 }
-                if (myPosition.getColumn() < 7) {
+                if (myPosition.getColumn() < 8) {
                     ChessPosition diag_right = new ChessPosition(myPosition.getColumn() + 1, myPosition.getRow() - 1);
                     if (board.getPiece(diag_right) != null) {
                         if (board.getPiece(diag_right).getTeamColor() == ChessGame.TeamColor.WHITE) {

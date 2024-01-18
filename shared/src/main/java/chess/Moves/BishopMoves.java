@@ -20,7 +20,7 @@ public class BishopMoves extends PieceMoves{
 
     public Collection<ChessMove> getMoves() {
         // Up Right
-        for (int i = 1; i < Math.min(7 - myPosition.getRow(), 7 - myPosition.getColumn()); i++) {
+        for (int i = 1; i <= Math.min(8 - myPosition.getRow(), 8 - myPosition.getColumn()); i++) {
             ChessPosition u_r = new ChessPosition(myPosition.getColumn() + i, myPosition.getRow() + i);
             chess.ChessPiece piece = board.getPiece(u_r);
             if (piece == null) {
@@ -36,7 +36,7 @@ public class BishopMoves extends PieceMoves{
 
         }
         // Up Left
-        for (int i = 1; i < Math.min(7 - myPosition.getRow(), myPosition.getColumn()); i++) {
+        for (int i = 1; i < Math.min(9 - myPosition.getRow(), myPosition.getColumn()); i++) {
             ChessPosition u_l = new ChessPosition(myPosition.getColumn() - i, myPosition.getRow() + i);
             chess.ChessPiece piece = board.getPiece(u_l);
             if (piece == null) {
@@ -68,7 +68,7 @@ public class BishopMoves extends PieceMoves{
         }
 
         // Down Right
-        for (int i = 1; i < Math.min(myPosition.getRow(), 7 - myPosition.getColumn()); i++) {
+        for (int i = 1; i < Math.min(myPosition.getRow(), 9 - myPosition.getColumn()); i++) {
             ChessPosition d_r = new ChessPosition(myPosition.getColumn() + i, myPosition.getRow() - i);
             chess.ChessPiece piece = board.getPiece(d_r);
             if (piece == null) {

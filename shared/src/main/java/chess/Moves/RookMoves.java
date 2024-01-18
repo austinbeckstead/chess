@@ -18,7 +18,7 @@ public class RookMoves extends PieceMoves{
     }
 
     public Collection<ChessMove> getMoves() {
-        for(int i = 1; i < 7 - myPosition.getRow(); i++){
+        for(int i = 1; i <= 8 - myPosition.getRow(); i++){
             ChessPosition up = new ChessPosition(myPosition.getColumn(), myPosition.getRow() + i);
             chess.ChessPiece piece = board.getPiece(up);
             if (piece == null) {
@@ -46,7 +46,7 @@ public class RookMoves extends PieceMoves{
                 break;
             }
         }
-        for(int i = 1; i < 7 - myPosition.getColumn(); i++){
+        for(int i = 1; i <= 8 - myPosition.getColumn(); i++){
             ChessPosition right = new ChessPosition(myPosition.getColumn() + i, myPosition.getRow());
             chess.ChessPiece piece = board.getPiece(right);
             if (piece == null) {
