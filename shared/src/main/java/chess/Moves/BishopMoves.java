@@ -20,7 +20,7 @@ public class BishopMoves extends PieceMoves{
     public Collection<ChessMove> getMoves() {
         Collection<ChessMove> moves = new ArrayList<ChessMove>();
         // Up Right
-        for (int i = 1; i <= Math.min(8 - myPosition.getRow(), 8 - myPosition.getColumn()); i++) {
+        for (int i = 1; i < Math.min(9 - myPosition.getRow(), 9 - myPosition.getColumn()); i++) {
             ChessPosition u_r = new ChessPosition(myPosition.getRow() + i, myPosition.getColumn() + i);
             if (diagonal(moves, u_r)) break;
 

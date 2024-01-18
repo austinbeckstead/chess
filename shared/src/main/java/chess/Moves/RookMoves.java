@@ -5,10 +5,10 @@ import chess.ChessGame;
 import chess.ChessMove;
 import chess.ChessPosition;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class RookMoves extends PieceMoves{
-    private Collection<ChessMove> moves;
     private ChessBoard board;
     private ChessPosition myPosition;
     private ChessGame.TeamColor teamColor;
@@ -21,6 +21,7 @@ public class RookMoves extends PieceMoves{
     }
 
     public Collection<ChessMove> getMoves() {
+        Collection<ChessMove> moves = new ArrayList<ChessMove>();
         for(int i = 1; i <= 8 - myPosition.getRow(); i++){
             ChessPosition up = new ChessPosition(myPosition.getRow(), myPosition.getColumn() + i);
             chess.ChessPiece piece = board.getPiece(up);

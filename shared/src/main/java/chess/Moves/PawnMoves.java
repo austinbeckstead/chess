@@ -4,10 +4,11 @@ import chess.ChessBoard;
 import chess.ChessGame;
 import chess.ChessMove;
 import chess.ChessPosition;
+
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class PawnMoves extends PieceMoves {
-    private Collection<ChessMove> moves;
     private ChessBoard board;
     private ChessPosition myPosition;
     private ChessGame.TeamColor teamColor;
@@ -21,6 +22,7 @@ public class PawnMoves extends PieceMoves {
     }
 
     public Collection<ChessMove> getMoves() {
+        Collection<ChessMove> moves = new ArrayList<ChessMove>();
         if (teamColor == ChessGame.TeamColor.WHITE) {
             ChessPosition up = new ChessPosition(myPosition.getRow(), myPosition.getColumn() + 1);
             if(myPosition.getRow() == 7) {
