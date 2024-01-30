@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -14,8 +15,6 @@ public class ChessGame {
 
 
     public ChessGame() {
-        teamTurn = TeamColor.WHITE;
-
     }
 
     /**
@@ -52,14 +51,18 @@ public class ChessGame {
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece piece = board.getPiece(startPosition);
         if (piece == null) return null;
+        Collection<ChessMove> finalMoves = new ArrayList<ChessMove>();
         Collection<ChessMove> pieceMoves = board.getPiece(startPosition).pieceMoves(board, startPosition);
         for(ChessMove move: pieceMoves){
             ChessBoard newBoard = board.copyBoard();
-            ChessPiece newPiece = board.getPiece(startPosition);
+            newBoard.movePiece(startPosition, move.getEndPosition());
             ChessGame newGame = new ChessGame();
             newGame.setBoard(newBoard);
+            if(!(newGame.isInCheck(piece.getTeamColor()))){
+                finalMoves.add(move);
+            }
         }
-        return null;
+        return finalMoves;
     }
 
     /**
@@ -69,7 +72,20 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+        if(board.getPiece(move.getStartPosition()).getTeamColor() != teamTurn) throw new InvalidMoveException();
+        for(ChessMove validMove: validMoves(move.getStartPosition())){
+            if(move.equals(validMove)){
+                board.movePiece(move.getStartPosition(), move.getEndPosition());
+                if(teamTurn == TeamColor.BLACK){
+                    teamTurn = TeamColor.WHITE;
+                }
+                else{
+                    teamTurn = TeamColor.BLACK;
+                }
+                return;
+            }
+        }
+        throw new InvalidMoveException();
     }
 
     /**
@@ -122,13 +138,13 @@ public class ChessGame {
                 ChessPosition startPosition = new ChessPosition(row, col);
                 ChessPiece piece = board.getPiece(startPosition);
                 if (piece != null && piece.getTeamColor() == teamColor) {
-                    if(validMoves(startPosition) != null){
-                        return true;
+                    if(!validMoves(startPosition).isEmpty()){
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 
     /**
