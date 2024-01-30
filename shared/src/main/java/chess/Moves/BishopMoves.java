@@ -60,5 +60,4 @@ public class BishopMoves extends PieceMoves{
         }
         return false;
     }
-
 }
