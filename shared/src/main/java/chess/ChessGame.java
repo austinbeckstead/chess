@@ -53,7 +53,12 @@ public class ChessGame {
         ChessPiece piece = board.getPiece(startPosition);
         if (piece == null) return null;
         Collection<ChessMove> pieceMoves = board.getPiece(startPosition).pieceMoves(board, startPosition);
-
+        for(ChessMove move: pieceMoves){
+            ChessBoard newBoard = board.copyBoard();
+            ChessPiece newPiece = board.getPiece(startPosition);
+            ChessGame newGame = new ChessGame();
+            newGame.setBoard(newBoard);
+        }
         return null;
     }
 

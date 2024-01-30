@@ -24,6 +24,12 @@ public class ChessBoard {
     public void addPiece(ChessPosition position, ChessPiece piece) {
         pieces[position.getRow() - 1][position.getColumn() - 1] = piece;
     }
+    public void movePiece(ChessPosition startPosition, ChessPosition endPosition) {
+        pieces[endPosition.getRow() - 1][endPosition.getColumn() - 1] =pieces[startPosition.getRow() - 1][startPosition.getColumn() - 1];
+        pieces[startPosition.getRow() - 1][startPosition.getColumn() - 1] = null;
+        
+
+    }
 
     @Override
     public String toString() {
