@@ -72,6 +72,15 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
+        for (int row = 1; row < 9; row++){
+            for(int col = 1; col < 9; col++){
+                ChessPosition startPosition = new ChessPosition(row, col);
+                ChessPiece piece = board.getPiece(startPosition);
+                if(piece != null){
+                    Collection<ChessMove> moves = piece.pieceMoves(board, startPosition);
+                }
+            }
+        }
         throw new RuntimeException("Not implemented");
     }
 
