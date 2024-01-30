@@ -91,4 +91,18 @@ public class ChessBoard {
         addPiece(new ChessPosition(8,8), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK));
 
     }
+    public ChessBoard copyBoard(){
+        ChessBoard newBoard = new ChessBoard();
+        for(int row = 1; row < 9; row++){
+            for(int col = 1; col < 9; col++){
+                ChessPosition pos = new ChessPosition(row, col);
+                ChessPiece piece = getPiece(pos);
+                if(piece!= null) {
+                    newBoard.addPiece(new ChessPosition(row, col), new ChessPiece(piece.getTeamColor(), piece.getPieceType()));
+                }
+            }
+        }
+
+        return newBoard;
+    }
 }
