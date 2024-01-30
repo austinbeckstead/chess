@@ -76,12 +76,20 @@ public class ChessGame {
             for(int col = 1; col < 9; col++){
                 ChessPosition startPosition = new ChessPosition(row, col);
                 ChessPiece piece = board.getPiece(startPosition);
-                if(piece != null){
+                if(piece != null && piece.getTeamColor() != teamColor){
                     Collection<ChessMove> moves = piece.pieceMoves(board, startPosition);
+                    for(ChessMove move: moves){
+                        ChessPiece endPiece = board.getPiece(move.getEndPosition());
+                        if(endPiece != null){
+                            if(endPiece.getPieceType() == ChessPiece.PieceType.KING){
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
         }
-        throw new RuntimeException("Not implemented");
+        return false;
     }
 
     /**
