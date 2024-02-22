@@ -4,7 +4,10 @@ import java.util.HashMap;
 
 public class MemoryAuthDAO {
     private HashMap<String, GameData> data;
-    public void clear() {
+    public MemoryAuthDAO(){
         data = new HashMap<String, GameData>();
+    }
+    public void clear() {
+        data.clear();
     }
 }
