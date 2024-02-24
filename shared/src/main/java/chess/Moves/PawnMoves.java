@@ -27,27 +27,20 @@ public class PawnMoves extends PieceMoves {
             ChessPosition up = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn());
             if(myPosition.getRow() == 7) {
                 if (board.getPiece(up) == null) {
-                    moves.add(new ChessMove(myPosition, up, chess.ChessPiece.PieceType.QUEEN));
-                    moves.add(new ChessMove(myPosition, up, chess.ChessPiece.PieceType.BISHOP));
-                    moves.add(new ChessMove(myPosition, up, chess.ChessPiece.PieceType.KNIGHT));
-                    moves.add(new ChessMove(myPosition, up, chess.ChessPiece.PieceType.ROOK));
+                    addPromotionMoves(up, moves);
                 }
                 ChessPosition diagLeft = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() - 1);
                 if (board.getPiece(diagLeft) != null) {
                     if (board.getPiece(diagLeft).getTeamColor() == ChessGame.TeamColor.BLACK) {
-                        moves.add(new ChessMove(myPosition, diagLeft, chess.ChessPiece.PieceType.QUEEN));
-                        moves.add(new ChessMove(myPosition, diagLeft, chess.ChessPiece.PieceType.BISHOP));
-                        moves.add(new ChessMove(myPosition, diagLeft, chess.ChessPiece.PieceType.KNIGHT));
-                        moves.add(new ChessMove(myPosition, diagLeft, chess.ChessPiece.PieceType.ROOK));
+                        addPromotionMoves(diagLeft, moves);
+
                     }
                 }
                 ChessPosition diagRight = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 1);
                 if (board.getPiece(diagRight) != null) {
                     if (board.getPiece(diagRight).getTeamColor() == ChessGame.TeamColor.BLACK) {
-                        moves.add(new ChessMove(myPosition, diagRight, chess.ChessPiece.PieceType.QUEEN));
-                        moves.add(new ChessMove(myPosition, diagRight, chess.ChessPiece.PieceType.BISHOP));
-                        moves.add(new ChessMove(myPosition, diagRight, chess.ChessPiece.PieceType.KNIGHT));
-                        moves.add(new ChessMove(myPosition, diagRight, chess.ChessPiece.PieceType.ROOK));
+                        addPromotionMoves(diagRight, moves);
+
                     }
                 }
             }
@@ -87,27 +80,21 @@ public class PawnMoves extends PieceMoves {
             if(myPosition.getRow() == 2) {
                 ChessPosition down = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn());
                 if (board.getPiece(down) == null) {
-                    moves.add(new ChessMove(myPosition, down, chess.ChessPiece.PieceType.QUEEN));
-                    moves.add(new ChessMove(myPosition, down, chess.ChessPiece.PieceType.BISHOP));
-                    moves.add(new ChessMove(myPosition, down, chess.ChessPiece.PieceType.KNIGHT));
-                    moves.add(new ChessMove(myPosition, down, chess.ChessPiece.PieceType.ROOK));
+                    addPromotionMoves(down, moves);
+
                 }
                 ChessPosition diagLeft = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() - 1);
                 if (board.getPiece(diagLeft) != null) {
                     if (board.getPiece(diagLeft).getTeamColor() == ChessGame.TeamColor.WHITE) {
-                        moves.add(new ChessMove(myPosition, diagLeft, chess.ChessPiece.PieceType.QUEEN));
-                        moves.add(new ChessMove(myPosition, diagLeft, chess.ChessPiece.PieceType.BISHOP));
-                        moves.add(new ChessMove(myPosition, diagLeft, chess.ChessPiece.PieceType.KNIGHT));
-                        moves.add(new ChessMove(myPosition, diagLeft, chess.ChessPiece.PieceType.ROOK));
+                        addPromotionMoves(diagLeft, moves);
+
                     }
                 }
                 ChessPosition diagRight = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() + 1);
                 if (board.getPiece(diagRight) != null) {
                     if (board.getPiece(diagRight).getTeamColor() == ChessGame.TeamColor.WHITE) {
-                        moves.add(new ChessMove(myPosition, diagRight, chess.ChessPiece.PieceType.QUEEN));
-                        moves.add(new ChessMove(myPosition, diagRight, chess.ChessPiece.PieceType.BISHOP));
-                        moves.add(new ChessMove(myPosition, diagRight, chess.ChessPiece.PieceType.KNIGHT));
-                        moves.add(new ChessMove(myPosition, diagRight, chess.ChessPiece.PieceType.ROOK));
+                        addPromotionMoves(diagRight, moves);
+
                     }
                 }
             }
@@ -142,6 +129,12 @@ public class PawnMoves extends PieceMoves {
 
         }
         return moves;
+    }
+    private void addPromotionMoves(ChessPosition position, Collection<ChessMove> moves){
+        moves.add(new ChessMove(myPosition, position, chess.ChessPiece.PieceType.QUEEN));
+        moves.add(new ChessMove(myPosition, position, chess.ChessPiece.PieceType.BISHOP));
+        moves.add(new ChessMove(myPosition, position, chess.ChessPiece.PieceType.KNIGHT));
+        moves.add(new ChessMove(myPosition, position, chess.ChessPiece.PieceType.ROOK));
     }
 
 }

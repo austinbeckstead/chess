@@ -53,7 +53,7 @@ public class Server {
         Spark.awaitStop();
     }
     private void exceptionHandler(DataAccessException ex, Request req, Response res) {
-        res.status(ex.StatusCode());
+        res.status(ex.statusCode());
     }
     private Object clearApplication(Request req, Response res) throws DataAccessException {
         gameService.clear();
