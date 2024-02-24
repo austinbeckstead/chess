@@ -70,11 +70,7 @@ public class PawnMoves extends PieceMoves {
                     if (board.getPiece(diagRight) != null) {
                         if (board.getPiece(diagRight).getTeamColor() == ChessGame.TeamColor.BLACK) {
                             moves.add(new ChessMove(myPosition, diagRight, null));
-                        }
-                    }
-                }
-            }
-
+                        }}}}
         }
         else if (teamColor == ChessGame.TeamColor.BLACK) {
             if(myPosition.getRow() == 2) {
@@ -87,7 +83,6 @@ public class PawnMoves extends PieceMoves {
                 if (board.getPiece(diagLeft) != null) {
                     if (board.getPiece(diagLeft).getTeamColor() == ChessGame.TeamColor.WHITE) {
                         addPromotionMoves(diagLeft, moves);
-
                     }
                 }
                 ChessPosition diagRight = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() + 1);
@@ -104,9 +99,9 @@ public class PawnMoves extends PieceMoves {
                     moves.add(new ChessMove(myPosition, down, null));
                 }
                 if (myPosition.getRow() == 7) {
-                    ChessPosition downdown = new ChessPosition(myPosition.getRow() - 2, myPosition.getColumn());
-                    if (board.getPiece(downdown) == null && board.getPiece(down) == null) {
-                        moves.add(new ChessMove(myPosition, downdown, null));
+                    ChessPosition downDown = new ChessPosition(myPosition.getRow() - 2, myPosition.getColumn());
+                    if (board.getPiece(downDown) == null && board.getPiece(down) == null) {
+                        moves.add(new ChessMove(myPosition, downDown, null));
                     }
                 }
                 if (myPosition.getColumn() > 1) {
@@ -114,20 +109,13 @@ public class PawnMoves extends PieceMoves {
                     if (board.getPiece(diagLeft) != null) {
                         if (board.getPiece(diagLeft).getTeamColor() == ChessGame.TeamColor.WHITE) {
                             moves.add(new ChessMove(myPosition, diagLeft, null));
-                        }
-                    }
-                }
+                        }}}
                 if (myPosition.getColumn() < 8) {
                     ChessPosition diagRight = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() + 1);
                     if (board.getPiece(diagRight) != null) {
                         if (board.getPiece(diagRight).getTeamColor() == ChessGame.TeamColor.WHITE) {
                             moves.add(new ChessMove(myPosition, diagRight, null));
-                        }
-                    }
-                }
-            }
-
-        }
+                        }}}}}
         return moves;
     }
     private void addPromotionMoves(ChessPosition position, Collection<ChessMove> moves){
