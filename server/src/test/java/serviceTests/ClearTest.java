@@ -42,28 +42,5 @@ public class ClearTest {
         System.out.println("Started test HTTP server on " + port);
         String clearEndpoint = "http://localhost:" + port + "/db";
 
-        // Create an HttpClient
-        HttpClient httpClient = HttpClient.newHttpClient();
-
-        // Create a DELETE request to the clear API endpoint
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(clearEndpoint))
-                .DELETE()
-                .build();
-
-        // Send the request and handle the response
-        try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            int statusCode = response.statusCode();
-            System.out.println("Response Status Code: " + statusCode);
-
-            if (statusCode == 200) {
-                System.out.println("Clear request succeeded");
-            } else {
-                System.out.println("Clear request failed with status code " + statusCode);
-            }
-        } catch (Exception e) {
-            System.err.println("Error making clear request: " + e.getMessage());
-        }
     }
 }
