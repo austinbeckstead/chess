@@ -2,9 +2,9 @@ package server;
 
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
-import server.handler.*;
+import model.UserData;
 import service.GameService;
-import service.ResponseException;
+import service.Result;
 import spark.*;
 
 public class Server {
@@ -19,7 +19,8 @@ public class Server {
         Spark.staticFiles.location("web");
         // Register your endpoints and handle exceptions here.
         Spark.delete("/db", this::clearApplication);
-        Spark.exception(ResponseException.class, this::exceptionHandler);
+        Spark.post("/user", this::registerUser);
+        Spark.exception(DataAccessException.class, this::exceptionHandler);
 
         Spark.awaitInitialization();
         return Spark.port();
@@ -29,13 +30,21 @@ public class Server {
         Spark.stop();
         Spark.awaitStop();
     }
-    private void exceptionHandler(ResponseException ex, Request req, Response res) {
+    private void exceptionHandler(DataAccessException ex, Request req, Response res) {
         res.status(ex.StatusCode());
     }
     private Object clearApplication(Request req, Response res) throws DataAccessException {
         gameService.clear();
         res.status(200);
-        return "";
+        String message = "";
+        return serializer.toJson(message);
     }
+    private Object registerUser(Request req, Response res) throws DataAccessException {
+        var user = serializer.fromJson(req.body(), UserData.class);
+        Result result = gameService.addUser(user);
+        return new Gson().toJson(user);
+
+    }
+
 
 }

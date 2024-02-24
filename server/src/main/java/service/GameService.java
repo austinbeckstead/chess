@@ -2,10 +2,10 @@ package service;
 
 import dataAccess.*;
 public class GameService {
-    private MemoryAuthDAO authDAO;
-    private MemoryUserDAO userDAO;
+    public MemoryAuthDAO authDAO;
+    public MemoryUserDAO userDAO;
 
-    private MemoryGameDAO gameDAO;
+    public MemoryGameDAO gameDAO;
     public GameService(){
         authDAO = new MemoryAuthDAO();
         userDAO = new MemoryUserDAO();
