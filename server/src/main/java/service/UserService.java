@@ -2,6 +2,7 @@ package service;
 
 import dataAccess.DataAccessException;
 import dataAccess.MemoryAuthDAO;
+import dataAccess.MemoryGameDAO;
 import dataAccess.MemoryUserDAO;
 import model.AuthData;
 import model.UserData;
@@ -9,10 +10,12 @@ import model.UserData;
 public class UserService {
     public MemoryUserDAO userDAO;
     public MemoryAuthDAO authDAO;
+    public MemoryGameDAO gameDAO;
 
-    public UserService(){
-        userDAO = new MemoryUserDAO();
-        authDAO = new MemoryAuthDAO();
+    public UserService(MemoryAuthDAO authDAO, MemoryUserDAO userDAO, MemoryGameDAO gameDAO){
+        this.authDAO = authDAO;
+        this.userDAO = userDAO;
+        this.gameDAO = gameDAO;
     }
     public AuthData addUser(UserData userData) throws DataAccessException {
         if(userDAO.getUser(userData) == null){

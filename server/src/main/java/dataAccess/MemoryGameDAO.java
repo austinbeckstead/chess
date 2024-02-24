@@ -5,7 +5,7 @@ import model.GameData;
 import java.util.HashMap;
 
 public class MemoryGameDAO{
-    public HashMap<String, GameData> data;
+    private HashMap<String, GameData> data;
 
     public MemoryGameDAO() {
         data = new HashMap<String, GameData>();
@@ -15,5 +15,8 @@ public class MemoryGameDAO{
     }
     public GameData getGame(String id){
         return data.get(id);
+    }
+    public boolean isEmpty(){
+        return data.isEmpty();
     }
 }

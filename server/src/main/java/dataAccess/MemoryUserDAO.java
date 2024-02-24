@@ -20,4 +20,7 @@ public class MemoryUserDAO {
     public void createUser(UserData userData) throws DataAccessException{
             data.put(userData.username(), userData);
     }
+    public boolean isEmpty(){
+        return data.isEmpty();
+    }
 }

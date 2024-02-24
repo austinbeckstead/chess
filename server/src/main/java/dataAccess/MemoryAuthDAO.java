@@ -17,4 +17,7 @@ public class MemoryAuthDAO {
         data.put(username, authToken);
         return authToken;
     }
+    public boolean isEmpty(){
+        return data.isEmpty();
+    }
 }

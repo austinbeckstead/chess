@@ -6,10 +6,10 @@ public class GameService {
     public MemoryUserDAO userDAO;
 
     public MemoryGameDAO gameDAO;
-    public GameService(){
-        authDAO = new MemoryAuthDAO();
-        userDAO = new MemoryUserDAO();
-        gameDAO = new MemoryGameDAO();
+    public GameService(MemoryAuthDAO authDAO, MemoryUserDAO userDAO, MemoryGameDAO gameDAO){
+        this.authDAO = authDAO;
+        this.userDAO = userDAO;
+        this.gameDAO = gameDAO;
     }
 
     public void clear() throws DataAccessException{
@@ -17,4 +17,8 @@ public class GameService {
         userDAO.clear();
         gameDAO.clear();
     }
+    public boolean isEmpty(){
+        return (authDAO.isEmpty() && userDAO.isEmpty() && gameDAO.isEmpty());
+    }
+
 }
