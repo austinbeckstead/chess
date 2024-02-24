@@ -1,7 +1,5 @@
 package dataAccess;
-import model.GameData;
 import model.UserData;
-import service.Result;
 
 import java.util.HashMap;
 
@@ -22,5 +20,8 @@ public class MemoryUserDAO {
     }
     public boolean isEmpty(){
         return data.isEmpty();
+    }
+    public boolean verifyPassword(UserData userData){
+        return (data.get(userData.username()).password().equals(userData.password()));
     }
 }

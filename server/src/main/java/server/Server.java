@@ -9,7 +9,7 @@ import model.AuthData;
 import model.UserData;
 import service.GameService;
 import service.UserService;
-import service.Result;
+import service.result.*;
 import spark.*;
 
 public class Server {
@@ -32,6 +32,8 @@ public class Server {
         // Register your endpoints and handle exceptions here.
         Spark.delete("/db", this::clearApplication);
         Spark.post("/user", this::registerUser);
+        Spark.post("/session", this::loginUser);
+
         Spark.exception(DataAccessException.class, this::exceptionHandler);
 
         Spark.awaitInitialization();
@@ -48,19 +50,41 @@ public class Server {
     private Object clearApplication(Request req, Response res) throws DataAccessException {
         gameService.clear();
         res.status(200);
-        String message = "";
-        return serializer.toJson(message);
+        Result result = new Result(null, null);
+        return serializer.toJson(result);
     }
     private Object registerUser(Request req, Response res) throws DataAccessException {
-        var user = serializer.fromJson(req.body(), UserData.class);
+        UserData user = serializer.fromJson(req.body(), UserData.class);
         AuthData authToken = userService.addUser(user);
         if(authToken != null) {
             res.status(200);
-            return serializer.toJson(authToken);
+            LoginResult result = new LoginResult(authToken.username(), authToken.authToken());
+            return serializer.toJson(result);
         }
         else{
             res.status(403);
             Result result = new Result(null, "Error: already taken");
+            return serializer.toJson(result);
+        }
+
+    }
+    private Object loginUser(Request req, Response res){
+        var user = serializer.fromJson(req.body(), UserData.class);
+        try {
+            AuthData authToken = userService.loginUser(user);
+            if (authToken != null) {
+                res.status(200);
+                LoginResult result = new LoginResult(authToken.username(), authToken.authToken());
+                return serializer.toJson(result);
+            } else {
+                res.status(401);
+                Result result = new Result(null, "Error: unauthorized");
+                return serializer.toJson(result);
+            }
+        }
+        catch(DataAccessException e){
+            res.status(500);
+            Result result = new Result(null, e.getMessage());
             return serializer.toJson(result);
         }
 
