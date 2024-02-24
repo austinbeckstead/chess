@@ -1,5 +1,5 @@
 package service;
 
-public record Result(boolean success, String message){}
+public record Result(Boolean success, String message){}
 
 

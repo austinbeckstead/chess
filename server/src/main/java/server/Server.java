@@ -2,18 +2,23 @@ package server;
 
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
+import model.AuthData;
 import model.UserData;
 import service.GameService;
+import service.UserService;
 import service.Result;
 import spark.*;
 
 public class Server {
     private GameService gameService;
+    private UserService userService;
     private Gson serializer;
 
     public int run(int desiredPort) {
         Spark.port(desiredPort);
         gameService = new GameService();
+        userService = new UserService();
+
         serializer = new Gson();
 
         Spark.staticFiles.location("web");
@@ -41,8 +46,16 @@ public class Server {
     }
     private Object registerUser(Request req, Response res) throws DataAccessException {
         var user = serializer.fromJson(req.body(), UserData.class);
-        Result result = gameService.addUser(user);
-        return new Gson().toJson(user);
+        AuthData authToken = userService.addUser(user);
+        if(authToken != null) {
+            res.status(200);
+            return serializer.toJson(authToken);
+        }
+        else{
+            res.status(403);
+            Result result = new Result(null, "Error: already taken");
+            return serializer.toJson(result);
+        }
 
     }
 
