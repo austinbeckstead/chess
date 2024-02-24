@@ -21,38 +21,38 @@ public class BishopMoves extends PieceMoves{
         Collection<ChessMove> moves = new ArrayList<ChessMove>();
         // Up Right
         for (int i = 1; i < Math.min(9 - myPosition.getRow(), 9 - myPosition.getColumn()); i++) {
-            ChessPosition u_r = new ChessPosition(myPosition.getRow() + i, myPosition.getColumn() + i);
-            if (diagonal(moves, u_r)) break;
+            ChessPosition move = new ChessPosition(myPosition.getRow() + i, myPosition.getColumn() + i);
+            if (diagonal(moves, move)) break;
 
         }
         // Up Left
         for (int i = 1; i < Math.min(9 - myPosition.getRow(), myPosition.getColumn()); i++) {
-            ChessPosition u_l = new ChessPosition(myPosition.getRow() + i, myPosition.getColumn() - i);
-            if (diagonal(moves, u_l)) break;
+            ChessPosition move = new ChessPosition(myPosition.getRow() + i, myPosition.getColumn() - i);
+            if (diagonal(moves, move)) break;
         }
         // Down Left
         for (int i = 1; i < Math.min(myPosition.getRow(), myPosition.getColumn()); i++) {
-            ChessPosition d_l = new ChessPosition(myPosition.getRow() - i, myPosition.getColumn() - i);
-            if (diagonal(moves, d_l)) break;
+            ChessPosition move = new ChessPosition(myPosition.getRow() - i, myPosition.getColumn() - i);
+            if (diagonal(moves, move)) break;
 
         }
 
         // Down Right
         for (int i = 1; i < Math.min(myPosition.getRow(), 9 - myPosition.getColumn()); i++) {
-            ChessPosition d_r = new ChessPosition(myPosition.getRow() - i, myPosition.getColumn() + i);
-            if (diagonal(moves, d_r)) break;
+            ChessPosition move = new ChessPosition(myPosition.getRow() - i, myPosition.getColumn() + i);
+            if (diagonal(moves, move)) break;
         }
 
         return moves;
     }
 
-    private boolean diagonal(Collection<ChessMove> moves, ChessPosition u_r) {
-        ChessPiece piece = board.getPiece(u_r);
+    private boolean diagonal(Collection<ChessMove> moves, ChessPosition move) {
+        ChessPiece piece = board.getPiece(move);
         if (piece == null) {
-            moves.add(new ChessMove(myPosition, u_r, null));
+            moves.add(new ChessMove(myPosition, move, null));
         }
         else if (piece.getTeamColor() != teamColor){
-            moves.add(new ChessMove(myPosition, u_r, null));
+            moves.add(new ChessMove(myPosition, move, null));
             return true;
         }
         else{

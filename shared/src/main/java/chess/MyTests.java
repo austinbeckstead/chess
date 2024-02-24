@@ -1,6 +1,6 @@
 package chess;
 
-public class myTests {
+public class MyTests {
 
     public static void main(String[] args) {
         ChessBoard board = new ChessBoard();
