@@ -1,7 +1,9 @@
 package service;
 
 import dataAccess.*;
+import model.AuthData;
 import model.GameData;
+import service.request.JoinRequest;
 
 public class GameService {
     public MemoryAuthDAO authDAO;
@@ -30,7 +32,24 @@ public class GameService {
             return null;
         }
     }
+    public GameData[] listGames(String auth){
+        if(authDAO.getAuth(auth) != null) {
+            return gameDAO.listGames();
+        }
+        else{
+            return null;
+        }
 
+    }
+    public String joinGame(String auth, JoinRequest request) throws DataAccessException{
+        AuthData authToken = authDAO.getAuth(auth);
+        if(authToken != null) {
+            return gameDAO.joinGame(request, authToken.username());
+        }
+        else{
+            return "Error: unauthorized";
+        }
 
+        }
 
 }

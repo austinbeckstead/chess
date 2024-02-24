@@ -5,8 +5,12 @@ import com.google.gson.JsonSyntaxException;
 import dataAccess.*;
 import model.*;
 import service.*;
+import service.request.JoinRequest;
 import service.result.*;
 import spark.*;
+
+import javax.xml.crypto.Data;
+import java.util.List;
 
 public class Server {
 
@@ -31,6 +35,10 @@ public class Server {
         Spark.post("/session", this::loginUser);
         Spark.delete("/session", this::logoutUser);
         Spark.post("/game", this::createGame);
+        Spark.get("/game", this::listGames);
+        Spark.put("/game", this::joinGame);
+
+
 
 
 
@@ -136,6 +144,49 @@ public class Server {
         else{
             res.status(401);
             Result result = new Result(null, "Error: unauthorized");
+            return serializer.toJson(result);
+        }
+    }
+    private Object listGames(Request req, Response res){
+        var auth = req.headers("authorization");
+        GameData[] gameList = gameService.listGames(auth);
+        if(gameList != null){
+            res.status(200);
+            ListGamesResult result = new ListGamesResult(gameList);
+            return serializer.toJson(result);
+        }
+        else{
+            res.status(401);
+            Result result = new Result(null, "Error: unauthorized");
+            return serializer.toJson(result);
+        }
+    }
+    private Object joinGame(Request req, Response res) {
+        try {
+            var auth = req.headers("authorization");
+            JoinRequest request = serializer.fromJson(req.body(), JoinRequest.class);
+            String errorMessage = gameService.joinGame(auth, request);
+            Result result;
+            if (errorMessage == null) {
+                res.status(200);
+                result = new Result(null, null);
+            } else if (errorMessage.equals("Error: already taken")) {
+                res.status(403);
+                result = new Result(null, "Error: already taken");
+            } else if (errorMessage.equals("Error: bad request")) {
+                res.status(400);
+                result = new Result(null, "Error: bad request");
+            } else if (errorMessage.equals("Error: unauthorized")) {
+                res.status(401);
+                result = new Result(null, "Error: unauthorized");
+            } else {
+                res.status(500);
+                result = new Result(null, "Error: bad Request");
+            }
+            return serializer.toJson(result);
+        } catch (DataAccessException e) {
+            res.status(500);
+            Result result = new Result(null, e.getMessage());
             return serializer.toJson(result);
         }
     }

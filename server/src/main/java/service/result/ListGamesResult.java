@@ -1,2 +1,6 @@
-package service.result;public record ListGamesResult() {
+package service.result;
+
+import model.GameData;
+
+public record ListGamesResult(GameData[] games) {
 }
