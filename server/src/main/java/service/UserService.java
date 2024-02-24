@@ -1,20 +1,17 @@
 package service;
 
-import dataAccess.DataAccessException;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
-import dataAccess.MemoryUserDAO;
+import dataAccess.*;
 import model.AuthData;
 import model.UserData;
 
 import javax.xml.crypto.Data;
 
 public class UserService {
-    public MemoryUserDAO userDAO;
-    public MemoryAuthDAO authDAO;
-    public MemoryGameDAO gameDAO;
+    public UserDAO userDAO;
+    public AuthDAO authDAO;
+    public GameDAO gameDAO;
 
-    public UserService(MemoryAuthDAO authDAO, MemoryUserDAO userDAO, MemoryGameDAO gameDAO){
+    public UserService(AuthDAO authDAO, UserDAO userDAO, GameDAO gameDAO){
         this.authDAO = authDAO;
         this.userDAO = userDAO;
         this.gameDAO = gameDAO;

@@ -6,7 +6,7 @@ import service.request.JoinRequest;
 import java.util.HashMap;
 import java.util.Random;
 
-public class MemoryGameDAO{
+public class MemoryGameDAO implements GameDAO{
     private HashMap<String, GameData> data;
     private Random random;
 

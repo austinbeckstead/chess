@@ -4,7 +4,7 @@ import model.GameData;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class MemoryAuthDAO {
+public class MemoryAuthDAO implements AuthDAO {
     private HashMap<String, AuthData> data;
     public MemoryAuthDAO(){
         data = new HashMap<String, AuthData>();

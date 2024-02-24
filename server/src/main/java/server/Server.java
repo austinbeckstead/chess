@@ -14,10 +14,10 @@ import java.util.List;
 
 public class Server {
 
-    private final MemoryGameDAO gameDAO = new MemoryGameDAO();
-    private final MemoryUserDAO userDAO = new MemoryUserDAO();
+    private final GameDAO gameDAO = new MemoryGameDAO();
+    private final UserDAO userDAO = new MemoryUserDAO();
 
-    private final MemoryAuthDAO authDAO = new MemoryAuthDAO();
+    private final AuthDAO authDAO = new MemoryAuthDAO();
     private final GameService gameService = new GameService(authDAO, userDAO, gameDAO);;
     private final UserService userService = new UserService(authDAO, userDAO, gameDAO);;
 
@@ -132,7 +132,7 @@ public class Server {
         }
 
     }
-    private Object createGame(Request req, Response res){
+    private Object createGame(Request req, Response res) throws DataAccessException{
         var auth = req.headers("authorization");
         GameData game = serializer.fromJson(req.body(), GameData.class);
         GameData gameData = gameService.createGame(auth, game.gameName());
@@ -147,7 +147,7 @@ public class Server {
             return serializer.toJson(result);
         }
     }
-    private Object listGames(Request req, Response res){
+    private Object listGames(Request req, Response res) throws DataAccessException{
         var auth = req.headers("authorization");
         GameData[] gameList = gameService.listGames(auth);
         if(gameList != null){

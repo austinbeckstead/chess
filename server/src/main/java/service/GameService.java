@@ -5,12 +5,14 @@ import model.AuthData;
 import model.GameData;
 import service.request.JoinRequest;
 
-public class GameService {
-    public MemoryAuthDAO authDAO;
-    public MemoryUserDAO userDAO;
+import javax.xml.crypto.Data;
 
-    public MemoryGameDAO gameDAO;
-    public GameService(MemoryAuthDAO authDAO, MemoryUserDAO userDAO, MemoryGameDAO gameDAO){
+public class GameService {
+    public AuthDAO authDAO;
+    public UserDAO userDAO;
+
+    public GameDAO gameDAO;
+    public GameService(AuthDAO authDAO, UserDAO userDAO, GameDAO gameDAO){
         this.authDAO = authDAO;
         this.userDAO = userDAO;
         this.gameDAO = gameDAO;
@@ -21,10 +23,10 @@ public class GameService {
         userDAO.clear();
         gameDAO.clear();
     }
-    public boolean isEmpty(){
+    public boolean isEmpty() throws DataAccessException{
         return (authDAO.isEmpty() && userDAO.isEmpty() && gameDAO.isEmpty());
     }
-    public GameData createGame(String auth, String gameName){
+    public GameData createGame(String auth, String gameName) throws DataAccessException{
         if(authDAO.getAuth(auth) != null) {
             return gameDAO.createGame(gameName);
         }
@@ -32,7 +34,7 @@ public class GameService {
             return null;
         }
     }
-    public GameData[] listGames(String auth){
+    public GameData[] listGames(String auth) throws DataAccessException {
         if(authDAO.getAuth(auth) != null) {
             return gameDAO.listGames();
         }
