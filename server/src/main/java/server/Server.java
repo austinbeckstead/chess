@@ -2,14 +2,9 @@ package server;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import dataAccess.DataAccessException;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
-import dataAccess.MemoryUserDAO;
-import model.AuthData;
-import model.UserData;
-import service.GameService;
-import service.UserService;
+import dataAccess.*;
+import model.*;
+import service.*;
 import service.result.*;
 import spark.*;
 
@@ -35,6 +30,8 @@ public class Server {
         Spark.post("/user", this::registerUser);
         Spark.post("/session", this::loginUser);
         Spark.delete("/session", this::logoutUser);
+        Spark.post("/game", this::createGame);
+
 
 
         Spark.exception(DataAccessException.class, this::exceptionHandler);
@@ -127,6 +124,19 @@ public class Server {
         }
 
     }
-
-
+    private Object createGame(Request req, Response res){
+        var auth = req.headers("authorization");
+        GameData game = serializer.fromJson(req.body(), GameData.class);
+        GameData gameData = gameService.createGame(auth, game.gameName());
+        if(gameData != null){
+            res.status(200);
+            GameResult result = new GameResult(gameData.gameID());
+            return serializer.toJson(result);
+        }
+        else{
+            res.status(401);
+            Result result = new Result(null, "Error: unauthorized");
+            return serializer.toJson(result);
+        }
+    }
 }
