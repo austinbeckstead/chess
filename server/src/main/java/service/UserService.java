@@ -36,6 +36,16 @@ public class UserService {
             return null;
         }
     }
+    public boolean logoutUser(String auth) throws DataAccessException{
+        if(authDAO.getAuth(auth) != null){
+            authDAO.removeAuth(auth);
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
 
 
 }

@@ -14,10 +14,16 @@ public class MemoryAuthDAO {
     }
     public AuthData createAuth(String username){
         AuthData authToken = new AuthData(username, UUID.randomUUID().toString());
-        data.put(username, authToken);
+        data.put(authToken.authToken(), authToken);
         return authToken;
     }
     public boolean isEmpty(){
         return data.isEmpty();
+    }
+    public AuthData getAuth(String authToken){
+        return data.get(authToken);
+    }
+    public void removeAuth(String authToken){
+        data.remove(authToken);
     }
 }
