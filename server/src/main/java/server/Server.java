@@ -17,12 +17,23 @@ public class Server {
     private final GameDAO gameDAO = new MemoryGameDAO();
     private final UserDAO userDAO = new MemoryUserDAO();
 
-    private final AuthDAO authDAO = new MemoryAuthDAO();
-    private final GameService gameService = new GameService(authDAO, userDAO, gameDAO);;
-    private final UserService userService = new UserService(authDAO, userDAO, gameDAO);;
+    private AuthDAO authDAO;
+    private GameService gameService;
+    private UserService userService;
 
 
     private Gson serializer;
+
+    public Server(){
+        try {
+            this.authDAO = new SqlAuthDAO();
+            gameService = new GameService(authDAO, userDAO, gameDAO);;
+            userService = new UserService(authDAO, userDAO, gameDAO);;
+        }
+        catch(Exception e){
+            System.out.print("Error Starting Server");
+        }
+    }
 
     public int run(int desiredPort) {
         Spark.port(desiredPort);

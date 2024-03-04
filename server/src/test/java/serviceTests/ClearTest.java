@@ -17,11 +17,14 @@ public class ClearTest {
     private final GameDAO gameDAO = new MemoryGameDAO();
     private final UserDAO userDAO = new MemoryUserDAO();
 
-    private final AuthDAO authDAO = new MemoryAuthDAO();
+    private final AuthDAO authDAO = new SqlAuthDAO();
     GameService gameService = new GameService(authDAO, userDAO, gameDAO);
     UserService userService = new UserService(authDAO, userDAO, gameDAO);
 
     private static TestModels.TestCreateRequest createRequest;
+
+    public ClearTest() throws DataAccessException {
+    }
 
     @Test
     @Order(0)
