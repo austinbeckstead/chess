@@ -13,9 +13,9 @@ import service.UserService;
 public class RegisterTest {
     private static Server server;
     private final MemoryGameDAO gameDAO = new MemoryGameDAO();
-    private final UserDAO userDAO = new SqlUserDAO();
+    private final UserDAO userDAO = new MemoryUserDAO();
 
-    private final AuthDAO authDAO = new SqlAuthDAO();
+    private final AuthDAO authDAO = new MemoryAuthDAO();
     private final GameService gameService = new GameService(authDAO, userDAO, gameDAO);;
     private final UserService userService = new UserService(authDAO, userDAO, gameDAO);;
 

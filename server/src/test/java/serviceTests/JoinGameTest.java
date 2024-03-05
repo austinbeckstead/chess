@@ -14,10 +14,10 @@ import service.request.JoinRequest;
 
 public class JoinGameTest {
     private static Server server;
-    private final GameDAO gameDAO = new SqlGameDAO();
-    private final UserDAO userDAO = new SqlUserDAO();
+    private final GameDAO gameDAO = new MemoryGameDAO();
+    private final UserDAO userDAO = new MemoryUserDAO();
 
-    private final AuthDAO authDAO = new SqlAuthDAO();
+    private final AuthDAO authDAO = new MemoryAuthDAO();
     private final GameService gameService = new GameService(authDAO, userDAO, gameDAO);;
     private final UserService userService = new UserService(authDAO, userDAO, gameDAO);;
 
