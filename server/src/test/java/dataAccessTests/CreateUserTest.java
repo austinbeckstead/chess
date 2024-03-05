@@ -29,6 +29,19 @@ public class CreateUserTest {
         userDAO.createUser(userData);
         assert userDAO.getUser(userData).username().equals(userData.username());
     }
+    @Test
+    @Order(1)
+    @DisplayName("Create Null User")
+    public void createNullUser() throws DataAccessException {
+        try {
+            userDAO.clear();
+            userDAO.createUser(null);
+            assert false;
+        }
+        catch(Exception e) {
+            assert true;
+        }
+    }
 //No negative test because this will always work
 }
 
