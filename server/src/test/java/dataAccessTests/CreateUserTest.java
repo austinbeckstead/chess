@@ -24,6 +24,7 @@ public class CreateUserTest {
     @Order(0)
     @DisplayName("Create User")
     public void createUser() throws DataAccessException {
+        userDAO.clear();
         UserData userData = new UserData("username", "password", "email");
         userDAO.createUser(userData);
         assert userDAO.getUser(userData).username().equals(userData.username());

@@ -28,6 +28,9 @@ public class ClearTest {
     @Order(0)
     @DisplayName("Clear Data")
     public void clearData() throws DataAccessException {
+        gameDAO.clear();
+        userDAO.clear();
+        authDAO.clear();
         userDAO.createUser(new UserData("username", "password", "email"));
         AuthData token = authDAO.createAuth("username");
         GameData result = gameDAO.createGame("gameName");
