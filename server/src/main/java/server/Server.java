@@ -14,8 +14,8 @@ import java.util.List;
 
 public class Server {
 
-    private final GameDAO gameDAO = new MemoryGameDAO();
-    private final UserDAO userDAO = new MemoryUserDAO();
+    private GameDAO gameDAO;
+    private UserDAO userDAO;
 
     private AuthDAO authDAO;
     private GameService gameService;
@@ -27,8 +27,10 @@ public class Server {
     public Server(){
         try {
             this.authDAO = new SqlAuthDAO();
-            gameService = new GameService(authDAO, userDAO, gameDAO);;
-            userService = new UserService(authDAO, userDAO, gameDAO);;
+            this.userDAO = new SqlUserDAO();
+            this.gameDAO = new SqlGameDAO();
+            gameService = new GameService(authDAO, userDAO, gameDAO);
+            userService = new UserService(authDAO, userDAO, gameDAO);
         }
         catch(Exception e){
             System.out.print("Error Starting Server");
@@ -77,7 +79,6 @@ public class Server {
             UserData user = serializer.fromJson(req.body(), UserData.class);
             if(user.username() == null || user.password() == null || user.email() == null){
                 res.status(400);
-
                 Result result = new Result(null, "Error: bad request");
                 return serializer.toJson(result);
             }

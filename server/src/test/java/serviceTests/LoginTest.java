@@ -1,8 +1,5 @@
 package serviceTests;
-import dataAccess.DataAccessException;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
-import dataAccess.MemoryUserDAO;
+import dataAccess.*;
 import model.AuthData;
 import model.UserData;
 import org.junit.jupiter.api.DisplayName;
@@ -16,17 +13,22 @@ import service.UserService;
 public class LoginTest {
     private static Server server;
     private final MemoryGameDAO gameDAO = new MemoryGameDAO();
-    private final MemoryUserDAO userDAO = new MemoryUserDAO();
+    private final UserDAO userDAO = new SqlUserDAO();
 
-    private final MemoryAuthDAO authDAO = new MemoryAuthDAO();
+    private final AuthDAO authDAO = new SqlAuthDAO();
     private final GameService gameService = new GameService(authDAO, userDAO, gameDAO);;
     private final UserService userService = new UserService(authDAO, userDAO, gameDAO);;
 
     private static TestModels.TestCreateRequest createRequest;
+
+    public LoginTest() throws DataAccessException {
+    }
+
     @Test
     @Order(0)
     @DisplayName("Login When Empty")
     public void regEmpty() throws DataAccessException {
+        gameService.clear();
         String username = "username";
         AuthData token = userService.loginUser(new UserData(username, "password", null));
         assert(token == null);

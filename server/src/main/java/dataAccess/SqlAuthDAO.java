@@ -26,13 +26,30 @@ public class SqlAuthDAO implements AuthDAO{
         var statement = "INSERT INTO auth (authToken, authData) VALUES (?, ?)";
         AuthData authToken = new AuthData(username, UUID.randomUUID().toString());
         var authJSON = new Gson().toJson(authToken);
-        executeUpdate(statement, authToken, authJSON);
+        executeUpdate(statement, authToken.authToken(), authJSON);
         return new AuthData(username, authToken.authToken());
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        String query = "SELECT COUNT(*) FROM auth";
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var statement = conn.prepareStatement(query);
+                 ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int rowCount = resultSet.getInt(1);
+                    return rowCount == 0;
+                }
+            }
+
+            // In case of an error or if the table does not exist, return false
+            return false;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -54,16 +71,14 @@ public class SqlAuthDAO implements AuthDAO{
     @Override
     public void removeAuth(String authToken) throws DataAccessException {
         var statement = "DELETE FROM auth WHERE authToken=?";
-        executeUpdate(statement);
-
+        executeUpdate(statement, authToken);
     }
     private final String[] createStatements = {
             """
             CREATE TABLE IF NOT EXISTS  auth (
-              `authToken` varchar NOT NULL,
+              `authToken` varchar(255) NOT NULL,
               `authData` TEXT NOT NULL,
-              PRIMARY KEY (`authToken`),
-              INDEX(username)
+              PRIMARY KEY (`authToken`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
             """
     };
@@ -93,9 +108,14 @@ public class SqlAuthDAO implements AuthDAO{
         }
     }
     private AuthData readAuth(ResultSet rs) throws SQLException {
-        var authToken =  rs.getString("authToken");
-        var authJSON = rs.getString("authData");
-        return new Gson().fromJson(authJSON, AuthData.class);
+        if(rs.next()) {
+            var authToken = rs.getString("authToken");
+            var authJSON = rs.getString("authData");
+            return new Gson().fromJson(authJSON, AuthData.class);
+        }
+        else{
+            return null;
+        }
     }
 
 }
