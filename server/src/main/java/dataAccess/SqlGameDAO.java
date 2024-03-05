@@ -9,6 +9,8 @@ import service.request.JoinRequest;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SqlGameDAO implements GameDAO {
@@ -47,37 +49,84 @@ public class SqlGameDAO implements GameDAO {
         int gameID = new Random().nextInt(9000) + 1000;
         GameData gameData = new GameData(gameID, null, null, gameName, null);
         var statement = "INSERT INTO games (gameID, gameData) VALUES (?, ?)";
-        var userJSON = new Gson().toJson(gameData);
-        executeUpdate(statement, String.valueOf(gameID), userJSON);
+        var gameJSON = new Gson().toJson(gameData);
+        executeUpdate(statement, String.valueOf(gameID), gameJSON);
         return gameData;
     }
 
     @Override
     public GameData[] listGames() throws DataAccessException {
-        int columns = getNumberOfColumns();
-        GameData[] gameList = new GameData[columns];
+        List<GameData> gameList = new ArrayList<>();
         try (var conn = DatabaseManager.getConnection()) {
             var statement = "SELECT gameData FROM games";
             try (var ps = conn.prepareStatement(statement)) {
                 try (var rs = ps.executeQuery()) {
-                    int i = 0;
-                    while(rs.next()){
-                        if(readGame(rs) != null) {
-                            gameList[i] = readGame(rs);
+                    while (rs.next()) {
+                        GameData gameData = readGame(rs);
+                        if (gameData != null) {
+                            gameList.add(gameData);
                         }
-                        i++;
                     }
-                    return gameList;
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException(500, String.format("unable to get USER: %s", e.getMessage()));
+            throw new DataAccessException(500, String.format("Unable to list games: %s", e.getMessage()));
         }
+
+        return gameList.toArray(new GameData[0]);
     }
 
     @Override
     public String joinGame(JoinRequest request, String username) throws DataAccessException {
-        return null;
+        String id = String.valueOf(request.gameID());
+        try (var conn = DatabaseManager.getConnection()) {
+            var statement = "SELECT gameData FROM games WHERE gameID=?";
+            try (var ps = conn.prepareStatement(statement)) {
+                ps.setString(1, (String) id);
+                try (var rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        GameData gameData = readGame(rs);
+                        if(request.playerColor() == null){
+                            return null;
+                        }
+                        else if(request.playerColor().equals("WHITE")){
+                            if(gameData.whiteUsername() == null){
+                                var updateStatement = ""
+                            }
+                        }
+                    }
+                    else{
+                        return "Error: bad request";
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException(500, String.format("Unable to list games: %s", e.getMessage()));
+        }
+        if(game != null){
+            if(request.playerColor() == null){
+                return null;
+            }
+            else if(request.playerColor().equals("WHITE")){
+                if(game.whiteUsername() == null){
+                    data.put(String.valueOf(game.gameID()), new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game()));
+                    return null;
+                }
+                else {
+                    return "Error: already taken";
+                }
+            }
+            else{
+                if (game.blackUsername() == null) {
+                    data.put(String.valueOf(game.gameID()), new GameData(game.gameID(), game.whiteUsername(), username, game.gameName(), game.game()));
+                    return null;
+                } else {
+                    return "Error: already taken";
+                }
+            }
+
+        }
+        return "Error: bad request";
     }
 
     private final String[] createStatements = {
@@ -117,20 +166,6 @@ public class SqlGameDAO implements GameDAO {
         }
     }
 
-    public static int getNumberOfColumns() {
-        try (var conn = DatabaseManager.getConnection()) {
-            DatabaseMetaData metaData = conn.getMetaData();
-            try (ResultSet rs = metaData.getColumns(null, null, "games", null)) {
-                int columnCount = 0;
-                while (rs.next()) {
-                    columnCount++;
-                }
-                return columnCount;
-            }
-        } catch (SQLException | DataAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
     private GameData readGame(ResultSet rs) throws SQLException {
         if(rs.next()) {
             var gameJSON = rs.getString("gameData");
