@@ -8,7 +8,7 @@ import passoffTests.testClasses.TestModels;
 
 
 
-public class GetAuthTest {
+public class RemoveAuthTest {
     private final GameDAO gameDAO = new SqlGameDAO();
     private final UserDAO userDAO = new SqlUserDAO();
 
@@ -17,22 +17,18 @@ public class GetAuthTest {
 
     private static TestModels.TestCreateRequest createRequest;
 
-    public GetAuthTest() throws DataAccessException {
+
+    public RemoveAuthTest() throws DataAccessException {
     }
+
     @Test
     @Order(0)
-    @DisplayName("Create Auth")
+    @DisplayName("Remove Auth")
     public void getAuthTest() throws DataAccessException {
         AuthData authData = authDAO.createAuth("username");
         String authToken = authData.authToken();
-        assert authDAO.getAuth(authToken).username().equals(authData.username());
-
-    }
-    @Test
-    @Order(1)
-    @DisplayName("Bad Auth")
-    public void badAuthTest() throws DataAccessException {
-        assert authDAO.getAuth("THIS") == null;
+        authDAO.removeAuth(authToken);
+        assert authDAO.getAuth(authToken) == null;
     }
 }
 
