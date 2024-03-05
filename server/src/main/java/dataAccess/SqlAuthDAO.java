@@ -21,9 +21,9 @@ public class SqlAuthDAO implements AuthDAO {
     @Override
     public AuthData createAuth(String username) throws DataAccessException {
         var statement = "INSERT INTO auth (authToken, name) VALUES (?, ?)";
-        var deleteStatement = "DELETE FROM auth WHERE name=?";
+        //var deleteStatement = "DELETE FROM auth WHERE name=?";
         AuthData authToken = new AuthData(username, UUID.randomUUID().toString());
-        executeUpdate(deleteStatement, authToken.username());
+        //executeUpdate(deleteStatement, authToken.username());
         executeUpdate(statement, authToken.authToken(), authToken.username());
         return authToken;
     }
