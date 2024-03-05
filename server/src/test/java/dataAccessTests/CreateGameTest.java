@@ -24,6 +24,18 @@ public class CreateGameTest {
     public void createGame() throws DataAccessException {
         assert((gameDAO.createGame("gameName").gameName().equals("gameName")));
     }
+    @Test
+    @Order(1)
+    @DisplayName("Create Null Game")
+    public void createNullGame() throws DataAccessException {
+        try {
+            gameDAO.clear();
+            assert(gameDAO.createGame(null).gameName() == null);
+        }
+        catch(Exception e) {
+            assert true;
+        }
+    }
 //No negative test because this will always work
 
 }
