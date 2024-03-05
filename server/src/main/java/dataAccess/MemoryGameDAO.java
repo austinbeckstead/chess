@@ -35,7 +35,8 @@ public class MemoryGameDAO implements GameDAO{
             i += 1;
         }
         return gameList;
-    }    public String joinGame(JoinRequest request, String username){
+    }
+    public String joinGame(JoinRequest request, String username){
         GameData game = data.get(String.valueOf(request.gameID()));
 
         if(game != null){

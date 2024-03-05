@@ -1,9 +1,6 @@
 package serviceTests;
 
-import dataAccess.DataAccessException;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
-import dataAccess.MemoryUserDAO;
+import dataAccess.*;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
@@ -18,15 +15,19 @@ import service.UserService;
 public class ListGamesTest {
 
         private static Server server;
-        private final MemoryGameDAO gameDAO = new MemoryGameDAO();
-        private final MemoryUserDAO userDAO = new MemoryUserDAO();
+        private final GameDAO gameDAO = new SqlGameDAO();
+        private final UserDAO userDAO = new SqlUserDAO();
 
-        private final MemoryAuthDAO authDAO = new MemoryAuthDAO();
+        private final AuthDAO authDAO = new SqlAuthDAO();
         private final GameService gameService = new GameService(authDAO, userDAO, gameDAO);;
         private final UserService userService = new UserService(authDAO, userDAO, gameDAO);;
 
         private static TestModels.TestCreateRequest createRequest;
-        @Test
+
+    public ListGamesTest() throws DataAccessException {
+    }
+
+    @Test
         @Order(0)
         @DisplayName("List Games No Auth")
         public void listGamesNoAuth() throws DataAccessException {

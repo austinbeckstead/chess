@@ -82,52 +82,59 @@ public class SqlGameDAO implements GameDAO {
         try (var conn = DatabaseManager.getConnection()) {
             var statement = "SELECT gameData FROM games WHERE gameID=?";
             try (var ps = conn.prepareStatement(statement)) {
-                ps.setString(1, (String) id);
+                ps.setString(1, id);
                 try (var rs = ps.executeQuery()) {
                     if (rs.next()) {
                         GameData gameData = readGame(rs);
-                        if(request.playerColor() == null){
-                            return null;
+                        if (gameData == null) {
+                            System.out.println("HI");
+                            return "Error: bad request";
                         }
-                        else if(request.playerColor().equals("WHITE")){
-                            if(gameData.whiteUsername() == null){
-                                var updateStatement = ""
+                        if (request.playerColor() == null) {
+                            return null;
+                        } else if (request.playerColor().equals("WHITE")) {
+                            if (gameData.whiteUsername() == null) {
+                                GameData newData = new GameData(
+                                        gameData.gameID(),
+                                        username,
+                                        gameData.blackUsername(),
+                                        gameData.gameName(),
+                                        gameData.game()
+                                );
+                                // Update the gameData in the database
+                                var updateStatement = "UPDATE games SET gameData=? WHERE gameID=?";
+                                executeUpdate(updateStatement, new Gson().toJson(newData), id);
+                                return null;
+                            } else {
+                                return "Error: already taken";
+                            }
+                        } else {
+                            if (gameData.blackUsername() == null) {
+                                GameData newData = new GameData(
+                                        gameData.gameID(),
+                                        gameData.whiteUsername(),
+                                        username,
+                                        gameData.gameName(),
+                                        gameData.game()
+                                );
+                                // Update the gameData in the database
+                                var updateStatement = "UPDATE games SET gameData=? WHERE gameID=?";
+                                executeUpdate(updateStatement, new Gson().toJson(newData), id);
+                                return null;
+                            } else {
+                                return "Error: already taken";
                             }
                         }
-                    }
-                    else{
+                    } else {
                         return "Error: bad request";
                     }
                 }
             }
         } catch (SQLException e) {
-            throw new DataAccessException(500, String.format("Unable to list games: %s", e.getMessage()));
+            throw new DataAccessException(500, String.format("Unable to join the game: %s", e.getMessage()));
         }
-        if(game != null){
-            if(request.playerColor() == null){
-                return null;
-            }
-            else if(request.playerColor().equals("WHITE")){
-                if(game.whiteUsername() == null){
-                    data.put(String.valueOf(game.gameID()), new GameData(game.gameID(), username, game.blackUsername(), game.gameName(), game.game()));
-                    return null;
-                }
-                else {
-                    return "Error: already taken";
-                }
-            }
-            else{
-                if (game.blackUsername() == null) {
-                    data.put(String.valueOf(game.gameID()), new GameData(game.gameID(), game.whiteUsername(), username, game.gameName(), game.game()));
-                    return null;
-                } else {
-                    return "Error: already taken";
-                }
-            }
-
-        }
-        return "Error: bad request";
     }
+
 
     private final String[] createStatements = {
             """
@@ -167,12 +174,7 @@ public class SqlGameDAO implements GameDAO {
     }
 
     private GameData readGame(ResultSet rs) throws SQLException {
-        if(rs.next()) {
-            var gameJSON = rs.getString("gameData");
-            return new Gson().fromJson(gameJSON, GameData.class);
-        }
-        else{
-            return null;
-        }
+        var gameJSON = rs.getString("gameData");
+        return new Gson().fromJson(gameJSON, GameData.class);
     }
 }
