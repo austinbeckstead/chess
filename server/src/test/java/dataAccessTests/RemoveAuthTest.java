@@ -24,11 +24,20 @@ public class RemoveAuthTest {
     @Test
     @Order(0)
     @DisplayName("Remove Auth")
-    public void getAuthTest() throws DataAccessException {
+    public void removeAuth() throws DataAccessException {
         AuthData authData = authDAO.createAuth("username");
         String authToken = authData.authToken();
         authDAO.removeAuth(authToken);
         assert authDAO.getAuth(authToken) == null;
+    }
+    @Test
+    @Order(1)
+    @DisplayName("Remove Bad Auth")
+    public void removeBadAuth() throws DataAccessException {
+        AuthData authData = authDAO.createAuth("username");
+        String authToken = authData.authToken();
+        authDAO.removeAuth("NOTHING");
+        assert authDAO.getAuth(authToken) != null;
     }
 }
 
