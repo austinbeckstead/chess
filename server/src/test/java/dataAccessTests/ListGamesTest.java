@@ -23,7 +23,7 @@ public class ListGamesTest {
 
     @Test
     @Order(0)
-    @DisplayName("Empty List")
+    @DisplayName("List Games")
     public void listGames() throws DataAccessException {
         gameDAO.createGame("gameName");
         GameData[] list = gameDAO.listGames();
