@@ -39,6 +39,15 @@ public class ClearTest {
         authDAO.clear();
         assert (gameDAO.isEmpty() && userDAO.isEmpty() && authDAO.isEmpty());
     }
+    @Test
+    @Order(0)
+    @DisplayName("Clear Empty")
+    public void clearEmpty() throws DataAccessException {
+        gameDAO.clear();
+        userDAO.clear();
+        authDAO.clear();
+        assert (gameDAO.isEmpty() && userDAO.isEmpty() && authDAO.isEmpty());
+    }
 
 }
 
