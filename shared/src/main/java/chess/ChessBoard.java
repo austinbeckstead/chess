@@ -115,4 +115,8 @@ public class ChessBoard {
 
         return newBoard;
     }
+
+    public ChessPiece[][] getPieces() {
+        return pieces;
+    }
 }
