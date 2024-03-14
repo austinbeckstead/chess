@@ -1,13 +1,12 @@
 package ui;
 import chess.ChessGame;
 import chess.ChessPiece;
-
+import chess.ChessBoard;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import static ui.EscapeSequences.*;
-import java.util.Arrays;
 
-public class ChessBoard {
+public class ChessBoardUI {
     private static final String[] COLUMNS = {"a", "b", "c", "d", "e", "f", "g", "h"};
     private static final String[] ROWS = {"1", "2", "3", "4", "5", "6", "7", "8"};
     private static final int SQUARESIZE = 3;
@@ -134,12 +133,13 @@ public class ChessBoard {
     }
 
     public static void main(String[] args) {
-        ChessPiece[][] pieces = new ChessPiece[8][8];
+        ChessBoard board = new ChessBoard();
+        board.resetBoard();
+        ChessPiece[][] pieces = board.getPieces();
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
             }
         }
-        pieces[2][2] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
         drawBoard(pieces);
     }
 
