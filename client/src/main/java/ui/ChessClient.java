@@ -1,17 +1,26 @@
 package ui;
 
-public class ChessClient {
-    ChessClient(){
+import dataAccess.DataAccessException;
+import model.UserData;
+import service.result.LoginResult;
 
+import java.util.Scanner;
+
+public class ChessClient {
+    private final String serverUrl;
+    private final ServerFacade facade;
+    private String authToken;
+    ChessClient(String serverUrl){
+        this.serverUrl = serverUrl;
+        facade = new ServerFacade(serverUrl);
     }
-    public String eval(String input){
+    public String eval(String input) throws DataAccessException {
         switch(input){
             case "1":
-                login();
-                return "login";
+                return login();
+                // here we can return
             case "2":
-                register();
-                return "register";
+                return logout();
             case "3":
                 help();
                 return "help";
@@ -22,16 +31,72 @@ public class ChessClient {
                 return "";
         }
     }
-    private void login(){
-        System.out.println("Logging in");
+
+    public String postEval(String input){
+        switch(input){
+            case "1":
+                return help();
+            // here we can return
+            case "2":
+                return register();
+            case "3":
+                help();
+                return createGame();
+            case "4":
+                return listGames();
+            case "5":
+                return joinGame();
+            case "6":
+                return observeGame();
+            default:
+                return "";
+        }
     }
-    private void register(){
+    private String login() throws DataAccessException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Username:");
+        String username = scanner.nextLine();
+        System.out.println("Password:");
+        String password = scanner.nextLine();
+        UserData data = new UserData(username, password, null);
+        Object result = facade.login(data);
+        if (result instanceof LoginResult) {
+            authToken = ((LoginResult) result).authToken();
+            return "login";
+        } else {
+            return "unauthorized";
+        }
+    }
+    private String register(){
         System.out.println("Registering");
+        return("register");
+        //or return fail
     }
-    private void help(){
+    private String help(){
         System.out.println("Get help");
+        return ("help");
     }
     private void quit(){
         System.out.println("Goodbye");
+    }
+    private String logout(){
+        System.out.println("Logging out");
+        return ("logout");
+    }
+    private String createGame(){
+        System.out.println("Creating Game");
+        return ("create");
+    }
+    private String listGames(){
+        System.out.println("Listing Games");
+        return ("list");
+    }
+    private String joinGame(){
+        System.out.println("Joining Game");
+        return ("join");
+    }
+    private String observeGame(){
+        System.out.println("Joining Game as Observer");
+        return ("observe");
     }
 }

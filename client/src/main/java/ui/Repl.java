@@ -1,3 +1,8 @@
+//In client, have a Server Facade and Client Communicator class. In Server Facade, have a method for each endpoint.
+// Server Facade takes in a req and returns a result, calls Client Communicator to carry out the functions for each endpoint.
+// Convert to/from JSON in client communicator. Client communicator actually makes the request over the internet.
+
+
 package ui;
 
 import java.util.Objects;
@@ -6,8 +11,9 @@ import java.util.Scanner;
 public class Repl {
     private final ChessClient client;
 
-    public Repl() {
-        this.client = new ChessClient();
+
+    public Repl(String serverUrl) {
+        this.client = new ChessClient(serverUrl);
     }
 
     public void run() {
@@ -16,14 +22,31 @@ public class Repl {
         boolean loggedIn = false;
         var result = "";
         while (!result.equals("quit")) {
+            if(loggedIn){
+                postLoginMenu();
+                String input = scanner.nextLine();
+                try{
+                    result = client.postEval(input);
+                    if(result.equals("logout")){
+                        loggedIn = false;
+                    }
+                }
+                catch (Exception e) {
+                    System.out.println("Error");
+                }
+            }
+            else{
             loginMenu();
             String input = scanner.nextLine();
             try {
                 result = client.eval(input);
+                if(result.equals("login")){
+                    loggedIn = true;
+                }
             } catch (Exception e) {
                 System.out.println("Error");
             }
-
+            }
         }
     }
 
