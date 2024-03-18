@@ -18,7 +18,7 @@ public class ServerFacade {
     }
     public Object register(UserData data) throws DataAccessException{
         var path = "/user";
-        return communicator.makeRequest("POST", path, data, null, Result.class);
+        return communicator.makeRequest("POST", path, data, null, LoginResult.class);
     }
     public Object login(UserData data) throws DataAccessException{
         var path = "/session";

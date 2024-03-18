@@ -9,8 +9,8 @@ public class Main {
         Server server = new Server();
         var port = server.run(0);
         System.out.println("Started test HTTP server on " + port);
-        String clearEndpoint = "http://localhost:" + port + "/db";
-        Repl repl = new Repl(clearEndpoint);
+        String serverUrl = "http://localhost:" + port;
+        Repl repl = new Repl(serverUrl);
         repl.run();
 
     }

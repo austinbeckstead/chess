@@ -3,6 +3,7 @@ package ui;
 import dataAccess.DataAccessException;
 import model.UserData;
 import service.result.LoginResult;
+import service.result.Result;
 
 import java.util.Scanner;
 
@@ -20,7 +21,7 @@ public class ChessClient {
                 return login();
                 // here we can return
             case "2":
-                return logout();
+                return register();
             case "3":
                 help();
                 return "help";
@@ -32,13 +33,13 @@ public class ChessClient {
         }
     }
 
-    public String postEval(String input){
+    public String postEval(String input) throws DataAccessException {
         switch(input){
             case "1":
                 return help();
             // here we can return
             case "2":
-                return register();
+                return logout();
             case "3":
                 help();
                 return createGame();
@@ -67,10 +68,25 @@ public class ChessClient {
             return "unauthorized";
         }
     }
-    private String register(){
-        System.out.println("Registering");
-        return("register");
-        //or return fail
+    private String register() throws DataAccessException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Username:");
+        String username = scanner.nextLine();
+        System.out.println("Password:");
+        String password = scanner.nextLine();
+        System.out.println("Email:");
+        String email = scanner.nextLine();
+        UserData data = new UserData(username, password, email);
+        Object result = facade.register(data);
+        System.out.println(result);
+        if (result instanceof LoginResult) {
+            authToken = ((LoginResult) result).authToken();
+            System.out.println("Registering");
+            return ("login");
+        }
+        else{
+            return("error");
+        }
     }
     private String help(){
         System.out.println("Get help");
