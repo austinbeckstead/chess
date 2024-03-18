@@ -1,7 +1,10 @@
 package ui;
 
 import dataAccess.DataAccessException;
+import model.GameData;
 import model.UserData;
+import service.result.GameResult;
+import service.result.ListGamesResult;
 import service.result.LoginResult;
 import service.result.Result;
 
@@ -41,7 +44,6 @@ public class ChessClient {
             case "2":
                 return logout();
             case "3":
-                help();
                 return createGame();
             case "4":
                 return listGames();
@@ -95,17 +97,36 @@ public class ChessClient {
     private void quit(){
         System.out.println("Goodbye");
     }
-    private String logout(){
-        System.out.println("Logging out");
+    private String logout() throws DataAccessException {
+        System.out.println(authToken);
+        Object result = facade.logout(authToken);
         return ("logout");
     }
-    private String createGame(){
-        System.out.println("Creating Game");
-        return ("create");
+    private String createGame() throws DataAccessException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Game Name:");
+        String name = scanner.nextLine();
+        GameData data = new GameData(0, null, null, name, null);
+        Object result = facade.create(data, authToken);
+        if (result instanceof GameResult) {
+            System.out.println("Created game " + ((GameResult) result).gameID());
+            return "create";
+        }
+        else{
+            return("error");
+        }
     }
-    private String listGames(){
-        System.out.println("Listing Games");
-        return ("list");
+    private String listGames() throws DataAccessException {
+        Object result = facade.list(authToken);
+        if (result instanceof ListGamesResult) {
+            for(GameData game: ((ListGamesResult) result).games()){
+                System.out.println(game);
+            }
+            return "list";
+        }
+        else{
+            return("error");
+        }
     }
     private String joinGame(){
         System.out.println("Joining Game");

@@ -11,7 +11,6 @@ public class RunServer {
         server = new Server();
         var port = server.run(0);
         System.out.println("Started test HTTP server on " + port);
-        String clearEndpoint = "http://localhost:" + port + "/db";
 
     }
 }

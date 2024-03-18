@@ -62,7 +62,7 @@ public class Repl {
         System.out.println("3: Create Game");
         System.out.println("4: List Games");
         System.out.println("5: Join Game");
-        System.out.println("2: Join Observer");
+        System.out.println("6: Join Observer");
     }
 }
 

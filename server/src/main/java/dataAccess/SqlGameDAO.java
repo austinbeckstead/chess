@@ -87,7 +87,6 @@ public class SqlGameDAO implements GameDAO {
                     if (rs.next()) {
                         GameData gameData = readGame(rs);
                         if (gameData == null) {
-                            System.out.println("HI");
                             return "Error: bad request";
                         }
                         if (request.playerColor() == null) {
