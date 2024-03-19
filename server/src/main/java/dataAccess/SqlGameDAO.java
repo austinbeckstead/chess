@@ -1,5 +1,7 @@
 package dataAccess;
 
+import chess.ChessBoard;
+import chess.ChessGame;
 import com.google.gson.Gson;
 import model.GameData;
 import model.UserData;
@@ -47,7 +49,11 @@ public class SqlGameDAO implements GameDAO {
     @Override
     public GameData createGame(String gameName) throws DataAccessException {
         int gameID = new Random().nextInt(9000) + 1000;
-        GameData gameData = new GameData(gameID, null, null, gameName, null);
+        ChessGame game = new ChessGame();
+        ChessBoard board = new ChessBoard();
+        board.resetBoard();
+        game.setBoard(board);
+        GameData gameData = new GameData(gameID, null, null, gameName, game);
         var statement = "INSERT INTO games (gameID, gameData) VALUES (?, ?)";
         var gameJSON = new Gson().toJson(gameData);
         executeUpdate(statement, String.valueOf(gameID), gameJSON);

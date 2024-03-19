@@ -31,20 +31,19 @@ public class ClientCommunicator {
         }
     }
     private static void writeBody(Object request, String header, HttpURLConnection http) throws IOException {
+        if (header != null) {
+            http.addRequestProperty("authorization", header);
+        }
         if (request != null) {
             http.addRequestProperty("Content-Type", "application/json");
             String reqData = new Gson().toJson(request);
             try (OutputStream reqBody = http.getOutputStream()) {
                 reqBody.write(reqData.getBytes());
+
             }
         }
-
-        if(header != null) {
-            http.addRequestProperty("authorization", header);
-        }
-
-
     }
+
     private static <T> T readBody(HttpURLConnection http, Class<T> responseClass) throws IOException {
         T response = null;
         if (http.getContentLength() < 0) {

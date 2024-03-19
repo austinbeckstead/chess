@@ -16,6 +16,7 @@ public class ChessBoardUI {
     private static final String BOARDCOLOR = SET_BG_COLOR_LIGHT_GREY;
     public static final String BACKGROUND = RESET_BG_COLOR;
     private static final String TEXT = SET_TEXT_COLOR_DARK_GREY;
+    private static final String RESET = "\u001B[0m";
 
     private static final String WHITEPIECE = SET_TEXT_COLOR_BLUE;
 
@@ -29,7 +30,8 @@ public class ChessBoardUI {
         printWhite(out, pieces);
         printNewLine(out);
         printBlack(out, pieces);
-
+        out.print(ERASE_SCREEN);
+        out.print(RESET);
     }
     private static void printWhite(PrintStream out, ChessPiece[][] pieces){
         printHeader(out, COLUMNS);
@@ -136,10 +138,6 @@ public class ChessBoardUI {
         ChessBoard board = new ChessBoard();
         board.resetBoard();
         ChessPiece[][] pieces = board.getPieces();
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-            }
-        }
         drawBoard(pieces);
     }
 
