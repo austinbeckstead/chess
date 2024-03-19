@@ -179,8 +179,19 @@ public class ChessClient {
         }
         return ("join");
     }
-    private String observeGame(){
-        System.out.println("Joining Game as Observer");
+    private String observeGame() throws DataAccessException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter Game Number (1-" + gameList.length + "): ");
+        String gameNumber = scanner.nextLine();
+        if(gameNumber.matches("\\d+") && Integer.parseInt(gameNumber) <= gameList.length && Integer.parseInt(gameNumber) > 0) {
+            int i = Integer.parseInt(gameNumber) - 1;
+            facade.join(new JoinRequest(null, gameList[i].gameID()), authToken);
+            System.out.println("Joined " + gameList[i].gameName() + " as " + "observer");
+            ChessBoard board = new ChessBoard();
+            board.resetBoard();
+            ChessPiece[][] pieces = board.getPieces();
+            ChessBoardUI.drawBoard(pieces);
+        }
         return ("observe");
     }
     private void setGameList() throws DataAccessException {
