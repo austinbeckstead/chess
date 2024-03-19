@@ -18,11 +18,11 @@ public class ChessBoardUI {
     private static final String TEXT = SET_TEXT_COLOR_DARK_GREY;
     private static final String RESET = "\u001B[0m";
 
-    private static final String WHITEPIECE = SET_TEXT_COLOR_BLUE;
+    private static final String WHITEPIECE = SET_TEXT_COLOR_RED;
 
     private static final String WHITEBG = SET_BG_COLOR_WHITE;
     private static final String BLACKBG = SET_BG_COLOR_BLACK;
-    private static final String BLACKPIECE = SET_TEXT_COLOR_RED;
+    private static final String BLACKPIECE = SET_TEXT_COLOR_BLUE;
     public static void drawBoard(ChessPiece[][] pieces){
         var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
         out.print(ERASE_SCREEN);
@@ -33,16 +33,16 @@ public class ChessBoardUI {
         out.print(ERASE_SCREEN);
         out.print(RESET);
     }
-    private static void printWhite(PrintStream out, ChessPiece[][] pieces){
+    private static void printBlack(PrintStream out, ChessPiece[][] pieces){
         printHeader(out, COLUMNS);
-        printRows(out, pieces, ROWS);
+        printRows(out, pieces, reverseArray(ROWS));
         printHeader(out, COLUMNS);
 
     }
 
-    private static void printBlack(PrintStream out, ChessPiece[][] pieces){
+    private static void printWhite(PrintStream out, ChessPiece[][] pieces){
         printHeader(out, reverseArray(COLUMNS));
-        printRows(out, reversePieces(pieces), reverseArray(ROWS));
+        printRows(out, reversePieces(pieces), ROWS);
         printHeader(out, reverseArray(COLUMNS));
     }
     private static void printHeader(PrintStream out, String[] header){

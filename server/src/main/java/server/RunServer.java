@@ -9,7 +9,7 @@ public class RunServer {
     public static void main(String[] args) throws DataAccessException {
         // Define the URL of the server's clear API endpoint
         server = new Server();
-        var port = server.run(0);
+        var port = server.run(8080);
         System.out.println("Started test HTTP server on " + port);
 
     }
