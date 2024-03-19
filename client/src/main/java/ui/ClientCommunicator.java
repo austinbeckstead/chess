@@ -59,7 +59,6 @@ public class ClientCommunicator {
     private void throwIfNotSuccessful(HttpURLConnection http) throws IOException, DataAccessException {
         var status = http.getResponseCode();
         if (!isSuccessful(status)) {
-            System.out.println(status);
             throw new DataAccessException(status, "failure: " + status);
         }
     }

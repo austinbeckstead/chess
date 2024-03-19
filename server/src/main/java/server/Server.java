@@ -82,7 +82,6 @@ public class Server {
                 Result result = new Result(null, "Error: bad request");
                 return serializer.toJson(result);
             }
-            System.out.println(user);
             AuthData authToken = userService.addUser(user);
             if (authToken != null) {
                 res.status(200);
