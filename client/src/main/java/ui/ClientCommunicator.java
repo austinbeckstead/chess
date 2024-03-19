@@ -33,17 +33,16 @@ public class ClientCommunicator {
     private static void writeBody(Object request, String header, HttpURLConnection http) throws IOException {
         if (request != null) {
             http.addRequestProperty("Content-Type", "application/json");
+            String reqData = new Gson().toJson(request);
+            try (OutputStream reqBody = http.getOutputStream()) {
+                reqBody.write(reqData.getBytes());
+            }
         }
 
         if(header != null) {
-
             http.addRequestProperty("authorization", header);
-            System.out.println(header);
         }
-        String reqData = new Gson().toJson(request);
-        try (OutputStream reqBody = http.getOutputStream()) {
-            reqBody.write(reqData.getBytes());
-        }
+
 
     }
     private static <T> T readBody(HttpURLConnection http, Class<T> responseClass) throws IOException {
@@ -60,9 +59,8 @@ public class ClientCommunicator {
     }
     private void throwIfNotSuccessful(HttpURLConnection http) throws IOException, DataAccessException {
         var status = http.getResponseCode();
-        System.out.println(status);
         if (!isSuccessful(status)) {
-            System.out.println("Fali");
+            System.out.println(status);
             throw new DataAccessException(status, "failure: " + status);
         }
     }

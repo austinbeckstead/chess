@@ -98,7 +98,6 @@ public class ChessClient {
         System.out.println("Goodbye");
     }
     private String logout() throws DataAccessException {
-        System.out.println(authToken);
         Object result = facade.logout(authToken);
         return ("logout");
     }
