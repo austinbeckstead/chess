@@ -88,7 +88,6 @@ public class ChessClient {
         String email = scanner.nextLine();
         UserData data = new UserData(username, password, email);
         Object result = facade.register(data);
-        System.out.println(result);
         if (result instanceof LoginResult) {
             authToken = ((LoginResult) result).authToken();
             setGameList();
